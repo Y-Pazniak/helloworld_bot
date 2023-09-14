@@ -1,6 +1,6 @@
 package controller;
 
-import model.RandomPhrase;
+import model.RandomPhraseSingleton;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -17,22 +17,24 @@ public class Bot extends TelegramLongPollingBot {
 
     @Override
     public String getBotToken() {
-        return "6546426844:AAFuKQt1_phktU0EPGfmzeXAkPl-_B8ou_k";
+        return System.getenv("EUGENE_TEST_TELEGRAM_BOT");
     }
 
     @Override
     public void onUpdateReceived(Update update) {
-        RandomPhrase randomPhrase = new RandomPhrase();
+        RandomPhraseSingleton.RandomPhraseSingletonHolder randomPhrase = RandomPhraseSingleton.getInstance();
+        sendText(update.getMessage().getChatId(), randomPhrase.getPhrase());
+    }
 
-        SendMessage sendMessage = new SendMessage();
-        sendMessage.setChatId(update.getMessage().getChatId().toString());
-        sendMessage.setText(randomPhrase.getPhrase());
-
+    public void sendText(Long who, String what) {
+        SendMessage sendMessage = SendMessage.builder()
+                .chatId(who.toString())
+                .text(what).build();
         try {
-            this.execute(sendMessage);
+            execute(sendMessage);
         } catch (TelegramApiException e) {
-            e.printStackTrace();
             throw new RuntimeException(e);
         }
     }
+
 }
