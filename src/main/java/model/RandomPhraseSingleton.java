@@ -1,8 +1,6 @@
 package model;
 
-import java.util.ArrayList;
 import java.util.EnumSet;
-import java.util.List;
 import java.util.Set;
 
 public class RandomPhraseSingleton {
@@ -14,14 +12,10 @@ public class RandomPhraseSingleton {
         }
     }
 
-    private static final Set<SupportPhrases> phrasesSet = EnumSet.allOf(SupportPhrases.class);
-    private static final SupportPhrases[] supportPhrasesArray = phrasesSet.toArray(new SupportPhrases[0]);
+    private static final Set<Storage> phrasesSet = EnumSet.allOf(Storage.class);
+    private static final Storage[] supportPhrasesArray = phrasesSet.toArray(new Storage[0]);
 
     private RandomPhraseSingleton() {
-    }
-
-    public static RandomPhraseSingletonHolder getInstance() {
-        return RandomPhraseSingletonHolder.SINGLETON_HOLDER;
     }
 
     private static int getRandomNumber() {
