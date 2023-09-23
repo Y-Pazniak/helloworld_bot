@@ -1,20 +1,19 @@
 package view;
 
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class KeyboardMarkup {
+public class TwoButtonsKeyboard extends InlineKeyboardMarkup {
 
-    public KeyboardMarkup() {
+    public static class TwoButtonsKeyboardHolder {
+        private static final TwoButtonsKeyboard TWO_BUTTONS_KEYBOARD_SINGLETON = new TwoButtonsKeyboard();
     }
 
-    public SendMessage sendInlineKeyBoardMessage(long chatId) {
-        InlineKeyboardMarkup keyboardWithButtons = new InlineKeyboardMarkup();
-
+    private TwoButtonsKeyboard() {
+        super();
         List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
         List<InlineKeyboardButton> rowInline1 = new ArrayList<>();
 
@@ -30,14 +29,10 @@ public class KeyboardMarkup {
         rowInline1.add(inlineKeyboardButton2);
 
         rowsInline.add(rowInline1);
-        keyboardWithButtons.setKeyboard(rowsInline);
-
-        SendMessage message = new SendMessage();
-        message.setChatId(chatId + "");
-        message.setText("hallo");
-        message.setReplyMarkup(keyboardWithButtons);
-
-        return message;
+        setKeyboard(rowsInline);
     }
 
+    public static TwoButtonsKeyboard getInstance() {
+        return TwoButtonsKeyboardHolder.TWO_BUTTONS_KEYBOARD_SINGLETON;
+    }
 }
