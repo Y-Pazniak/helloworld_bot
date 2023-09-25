@@ -6,19 +6,14 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKe
 import java.util.ArrayList;
 import java.util.List;
 
-public class KeyboardMarkup {
-    private final InlineKeyboardMarkup keyboardWithButtons;
+public class TwoButtonsKeyboard extends InlineKeyboardMarkup {
 
-    public KeyboardMarkup() {
-        keyboardWithButtons = new InlineKeyboardMarkup();
-        initKeyboard();
+    public static class TwoButtonsKeyboardHolder {
+        private static final TwoButtonsKeyboard TWO_BUTTONS_KEYBOARD_SINGLETON = new TwoButtonsKeyboard();
     }
 
-    public InlineKeyboardMarkup getInstance() {
-        return this.keyboardWithButtons;
-    }
-
-    private void initKeyboard() {
+    private TwoButtonsKeyboard() {
+        super();
         List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
         List<InlineKeyboardButton> rowInline1 = new ArrayList<>();
 
@@ -27,14 +22,17 @@ public class KeyboardMarkup {
         inlineKeyboardButton1.setCallbackData("button 1");
 
         InlineKeyboardButton inlineKeyboardButton2 = new InlineKeyboardButton();
-        inlineKeyboardButton2.setText("button 1");
+        inlineKeyboardButton2.setText("button 2");
         inlineKeyboardButton2.setCallbackData("button 2");
 
         rowInline1.add(inlineKeyboardButton1);
         rowInline1.add(inlineKeyboardButton2);
 
         rowsInline.add(rowInline1);
-        keyboardWithButtons.setKeyboard(rowsInline);
+        setKeyboard(rowsInline);
     }
 
+    public static TwoButtonsKeyboard getInstance() {
+        return TwoButtonsKeyboardHolder.TWO_BUTTONS_KEYBOARD_SINGLETON;
+    }
 }
